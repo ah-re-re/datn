@@ -33,8 +33,11 @@
                                             <td>{{ comment.NameOfDisease}}</td>
                                             <td>{{ comment.PatientID}}</td>
                                             <td>{{ comment.ResultByDoctor}}</td>
-                                            {% if comment.MRIImages %}
-                                            <td><img src="{{ comment.MRIImages.url }}"width="300px" height="250px"></td>
+                                            {% if comment.InputImage %}
+                                            <td><img src="{{ comment.InputImage.url }}"width="300px" height="250px"></td>
+                                            {% endif %}
+                                            {% if comment.OutputImage %}
+                                            <td><img src="{{ comment.OutputImage.url }}"width="300px" height="250px"></td>
                                             {% endif %}
                                             <td>{{ comment.Date}}</td>
                                             <td>

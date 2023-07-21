@@ -6,6 +6,7 @@ from myapp.models import Employee, comment, doctor, patient
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model: Type[Employee] = Employee
+
         fields = ['name', 'contact', 'email', 'venue_image']
 
         widgets = { 'name': forms.TextInput(attrs={ 'class': 'form-control' }),
@@ -32,10 +33,13 @@ class DoctorFrom(forms.ModelForm):
         }
 
 class PatientForm(forms.ModelForm):
+
     class Meta:
+        Image = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
         model: Type[patient] = patient
         fields = '__all__'
         widgets = {
-            'DateOfBirth': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'DateOfBirth': forms.DateTimeInput(attrs={'type': 'date'}),
             'ExamDate': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'images': forms.FileInput(attrs={'multiple': True}),
         }
