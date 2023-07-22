@@ -8,48 +8,11 @@ from .models import Employee, doctor, patient, comment
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from ninja import NinjaAPI, Form
+from .schemas import *
+from typing import List
 
 
-# Create your views here.
-# def addnew(request):
-#     if request.method == "POST":
-#         form = EmployeeForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             try:
-#                 form.save()
-#                 return redirect('/')
-#             except:
-#                 pass
-#     else:
-#         form = EmployeeForm()
-#     return render(request, 'index.html', {'form': form})
-#
-#
-# def index(request):
-#     employees = Employee.objects.all()
-#     return render(request, "show.html", {'employees': employees})
-#
-#
-# def edit(request, id):
-#     employee = Employee.objects.get(id=id)
-#     return render(request, 'edit.html', {'employee': employee})
-#
-#
-# def update(request, id):
-#     employee = Employee.objects.get(id=id)
-#     form = EmployeeForm(request.POST, instance=employee)
-#     if form.is_valid():
-#         form.save()
-#         return redirect("/")
-#     return render(request, 'edit.html', {'employee': employee})
-#
-#
-# def destroy(request, id):
-#     employee = Employee.objects.get(id=id)
-#     employee.delete()
-#     return redirect("/")
-
-# page doc
 
 def das(request):
     return render(request, 'base2.html')
@@ -130,12 +93,6 @@ def comment_delete(request, pk):
 
 
 
-
-
-
-
-
-
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -156,3 +113,32 @@ def form_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+# ----------
+
+api = NinjaAPI()
+
+@api.get('/data', response=List[PatientIn])
+def showdata(request):
+    qs = patient.objects.all()
+    return qs
+
+@api.get('/list_doctor', response=List[DoctorOut])
+def showdoctor(request):
+    qs = doctor.objects.all()
+    return qs
+
+@api.post('/add_new_patient_api')
+def add_patient(request, new_patient: PatientIn = Form(...)):
+    try:
+        # print(new_patient.dict())
+        data = new_patient.dict()
+        file = request.FILES['images']
+        patient.objects.create(Name=data["Name"],
+                                        DoctorID=doctor.objects.get(id=data["DoctorID"]),
+                                        DateOfBirth=data["DateOfBirth"],
+                                        images=file,
+                                        ExamDate=data["ExamDate"])
+        return {"message":"Done"}
+    except Exception as E:
+        return {"error": f"{E}"}

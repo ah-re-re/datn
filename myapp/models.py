@@ -26,7 +26,7 @@ class doctor(models.Model):
     NameLogin = models.CharField(max_length=255)
     Password = models.CharField(max_length=20)
     Faculty = models.CharField(max_length=255)
-    Image = models.ImageField(null=True)
+    Image = models.ImageField(null=True, blank=True, upload_to='media/')
 
 
     def __str__(self):
@@ -35,7 +35,7 @@ class patient(models.Model):
     Name = models.CharField(max_length=30)
     DoctorID = models.ForeignKey(doctor, on_delete=models.CASCADE)
     DateOfBirth = models.DateField(null=True)
-    images = models.ImageField(null=True, blank=True)
+    images = models.ImageField(null=True, blank=True, upload_to='media/')
     ExamDate = models.DateTimeField()
 
 
@@ -72,25 +72,6 @@ class comment(models.Model):
 
 
 
-# class diseaseprogression(models.Model):
-#     CurrentStatus = models.CharField(max_length=255)
-#     MedicationDosage = models.CharField(max_length=255)
-#     DiseaseDevelopment = models.CharField(max_length=255)
-#     PatientID = models.ForeignKey(patient,on_delete=models.CASCADE)
-
-# class historypatient(models.Model):
-#     Symptoms = models.CharField(max_length=255)
-#     PreExamResults = models.CharField(max_length=255)
-#     PreExamDate = models.DateTimeField()
-#     PatientID = models.ForeignKey(patient, on_delete=models.CASCADE)
-
-# class medicalappointmentschedule(models.Model):
-#     Time = models.DateTimeField()
-#     Address = models.TextField()
-#     Note = models.TextField()
-#     ClinicForPatients = models.CharField(max_length=255)
-#     ReceptionistID = models.ForeignKey(receptionist, on_delete=models.CASCADE)
-#     DoctorID = models.ForeignKey(doctor, on_delete=models.CASCADE)
 
 class diseases(models.Model):
     NameDiseases = models.CharField(max_length=255)
