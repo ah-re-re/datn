@@ -35,11 +35,11 @@ class DoctorFrom(forms.ModelForm):
 class PatientForm(forms.ModelForm):
 
     class Meta:
-        Image = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
         model: Type[patient] = patient
         fields = '__all__'
         widgets = {
             'DateOfBirth': forms.DateTimeInput(attrs={'type': 'date'}),
             'ExamDate': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'images': forms.FileInput(attrs={'multiple': True}),
+
         }

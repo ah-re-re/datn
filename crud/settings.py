@@ -85,7 +85,6 @@ DATABASES = {
         'NAME': 'flight',
         'USER': 'root',
         'PASSWORD': '31052002',
-        'HOST': 'localhost',
         'PORT': '3306'
     }
 }
@@ -136,3 +135,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 LOGIN_REDIRECT_URL = '/index/'
+
+
+ALLOWED_HOSTS = ['192.168.1.33', 'localhost', '127.0.0.1']
